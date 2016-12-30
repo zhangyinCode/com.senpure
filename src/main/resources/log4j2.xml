@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="DEBUG"  packages="com.senpure.learn.log">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="ROLLING" fileName="D:/logs/senpure/log.log"
+                     filePattern="log.%d{yyyy-MM-dd}_%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="24"/>
+                <SizeBasedTriggeringPolicy size="51200 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+
+        <RollingFile name="unit" fileName="D:/logs/senpurenuit/log.log"
+                     filePattern="log.%d{yyyy-MM-dd}_%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="24"/>
+                <SizeBasedTriggeringPolicy size="51200 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        <SOUT name="sout">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </SOUT>
+    </appenders>
+    <loggers>
+        <root level="trace">
+            <appender-ref ref="Console"/>
+        </root>
+        <logger name="jkl" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="unit"></appender-ref>
+            <appender-ref ref="sout"></appender-ref>
+        </logger>
+    </loggers>
+</configuration>
