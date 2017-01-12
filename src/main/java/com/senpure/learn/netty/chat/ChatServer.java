@@ -42,7 +42,7 @@ public class ChatServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 100)
-                    .handler(new LoggingHandler(LogLevel.INFO))
+                   .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
@@ -54,13 +54,16 @@ public class ChatServer {
 
 
                             //p.addLast(new LoggingHandler(LogLevel.INFO));
+                            p.addLast(new MyLineBasedFrameDecoder(1024));
                             p.addLast(new ChatServerHandler());
                         }
                     });
 
             // Start the server.
+
             ChannelFuture f = b.bind(PORT).sync();
 
+           // f.channel().close()
             // Wait until the server socket is closed.
             f.channel().closeFuture().sync();
         } finally {

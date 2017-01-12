@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/aop
+             http://www.springframework.org/schema/aop/spring-aop.xsd"
+>
+
+<!---->
+    <context:component-scan base-package="com.senpure.*.controller">
+    </context:component-scan>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+    <bean class="com.senpure.base.spring.HibernateVersionProxy"></bean>
+
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+    <bean id="localeChangeInterceptor"
+          class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+
+    <bean id="currentRequestInterceptor" class="com.senpure.base.spring.CurrentRequestInterceptor"/>
+<!--
+    <bean id="verifyInterceptor" class="com.senpure.base.spring.VerifyInterceptor">
+        <property name="authorize" ref="authorizeServiceImpl"></property>
+        <property name="localeResolver" ref="localeResolver"></property>
+    </bean>
+    -->
+    <bean id="urlInforInerceptor" class="com.senpure.base.spring.URLInfoInterceptor"></bean>
+    <!-- 多处样处理拦截器
+    <bean id="multipleInterceptor" class="com.senpure.base.spring.MultipleInterceptor">
+
+
+        <property name="localeResolver" ref="localeResolver"></property>
+    </bean>
+-->
+    <!-- 总错误处理 -->
+    <bean id="pritnException" class="com.senpure.base.spring.ExceptionResolver"></bean>
+    <bean id="exceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView">
+            <value>500</value>
+        </property>
+        <property name="defaultStatusCode">
+            <value>500</value>
+        </property>
+        <property name="warnLogCategory">
+            <value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
+            </value>
+        </property>
+    </bean>
+
+
+    <!-- 默认的注解映射的支持 -->
+    <mvc:annotation-driven validator="validator">
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.senpure.base.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <value>text/html;charset=UTF-8</value>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!-- 开启session <bean name="openSessionInViewInterceptor" class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor"></bean> -->
+    <!-- 拦截器 -->
+    <mvc:interceptors>
+        <ref bean="urlInforInerceptor"/>
+        <!--
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/authorize/log*"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <ref bean="verifyInterceptor"/>
+        </mvc:interceptor>
+        <ref bean="localeChangeInterceptor"/>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <ref bean="multipleInterceptor"/>
+        </mvc:interceptor>
+-->
+    </mvc:interceptors>
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/" />
+        <property name="defaultEncoding" value="utf-8" />
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">10</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="datetime_format">yyyy-MM-dd</prop><!-- 时间格式化 -->
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="number_format">#.##</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!-- 对静态资源文件的访问 方案一 （二选一） <mvc:default-servlet-handler/> -->
+    <!-- 对静态资源文件的访问 方案二 （二选一） -->
+    <mvc:resources mapping="/resources/**" location="resources/"
+                   cache-period="31556926"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称 -->
+        <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="cacheSeconds" value="300"></property>
+        <!-- 国际化信息所在的文件名 -->
+        <property name="basenames">
+            <list>
+                <value>classpath:i18n/ui/ui</value>
+                <value>classpath:i18n/validate/validate</value>
+                <value>classpath:i18n/result/result</value>
+            </list>
+        </property>
+
+    </bean>
+    <bean id="validatorMessageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:i18n/validate/validate">
+        </property>
+    </bean>
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <property name="validationMessageSource" ref="validatorMessageSource"></property>
+
+    </bean>
+    <!-- 支持上传文件 设置上传文件的最大尺寸为1MB <bean id="multipartResolver" class="org.springframework.web.multipart.base.CommonsMultipartResolver">
+        <property name="maxUploadSize"> <value>1048576</value> </property> <property
+        name="defaultEncoding"> <value>UTF-8</value> </property> </bean> -->
+
+</beans>

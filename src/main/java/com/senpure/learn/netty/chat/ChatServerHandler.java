@@ -20,7 +20,10 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.util.ByteProcessor;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 
@@ -29,16 +32,38 @@ import java.nio.charset.Charset;
  */
 @Sharable
 public class ChatServerHandler extends ChannelInboundHandlerAdapter {
+    private static int findEndOfLine(ByteBuf buffer) {
+        int i = buffer.forEachByte(ByteProcessor.FIND_LF);
+        if (i > 0 && buffer.getByte(i - 1) == 13) {
+            --i;
+        }
+
+        return i;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
 
-        LineBasedFrameDecoder l;
+        ByteBuf buffer = (ByteBuf) msg;
+//        int end = findEndOfLine(buffer);
+//
+//        //数据长度
+//        int dataLength = 0;
+//        if (end >= 0) {
+//
+//            dataLength = end - buffer.readerIndex();
+//            //换行符长度\r\n 或\n
+//          int   dataLength2=buffer.getByte(end) == 13?2:1;
+//            ByteBuf buffer1=buffer.readRetainedSlice(dataLength);
+//            buffer.skipBytes(dataLength2);
+//
+//        }
+
         System.out.print("收到消息:");
 
-       ByteBuf in= (ByteBuf) msg;
-       String message=  in.toString(Charset.forName("utf-8"));
+
+        String message = buffer.toString(Charset.forName("utf-8"));
         System.out.println(message);
     }
 
@@ -50,7 +75,15 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         // Close the connection when an exception is raised.
+
+        System.out.println("出现异常");
         cause.printStackTrace();
         ctx.close();
+    }
+
+    public static void main(String[] args) {
+
+
+        System.out.println((char) 13);
     }
 }

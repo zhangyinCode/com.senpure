@@ -76,9 +76,8 @@ public class GameLoggerUtil {
 		
 			
 			
-			warnappender.setThreshold(Priority.WARN);
-			
-		
+			warnappender.setThreshold(Level.WARN);
+
 			warnappender.setFile(getLogFilePath() + "warnlog_" + roomId + ".log");
 
 			// log的输出形式

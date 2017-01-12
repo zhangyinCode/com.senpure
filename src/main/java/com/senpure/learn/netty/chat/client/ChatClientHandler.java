@@ -47,7 +47,7 @@ public class ChatClientHandler extends ChannelInboundHandlerAdapter {
 
         for (int i = 0; i < 100; i++) {
             ByteBuf bb = Unpooled.buffer();
-            String str="hello"+i;
+            String str="hello"+i+"";
             bb.writeBytes(str.getBytes("utf-8"));
 
          //   bb.alloc()

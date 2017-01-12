@@ -2,6 +2,7 @@ package com.senpure.learn.netty.chat;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +13,9 @@ public class UselessHandler extends SimpleChannelInboundHandler<String> {
 
     private static  final Logger log= LogManager.getLogger(UselessHandler.class);
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
+    protected void channelRead0(ChannelHandlerContext cx, String s) throws Exception {
+
+        cx.channel().eventLoop().execute(null);
 
     }
 }

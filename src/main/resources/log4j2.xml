@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="DEBUG"  packages="com.senpure.learn.log">
+<configuration status="trace">
+    <Properties>
+        <Property name="PID">????</Property>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{${LOG_LEVEL_PATTERN}}%clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint}%m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}
+        </Property>
+    </Properties>
     <appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
-
         <RollingFile name="ROLLING" fileName="D:/logs/senpure/log.log"
                      filePattern="log.%d{yyyy-MM-dd}_%i.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
@@ -14,28 +20,13 @@
             </Policies>
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
-
-        <RollingFile name="unit" fileName="D:/logs/senpurenuit/log.log"
-                     filePattern="log.%d{yyyy-MM-dd}_%i.log">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="true" interval="24"/>
-                <SizeBasedTriggeringPolicy size="51200 KB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="20"/>
-        </RollingFile>
-        <SOUT name="sout">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </SOUT>
     </appenders>
     <loggers>
-        <root level="trace">
-            <appender-ref ref="Console"/>
-        </root>
-        <logger name="jkl" level="debug" additivity="false">
-            <appender-ref ref="Console"/>
-            <appender-ref ref="unit"></appender-ref>
-            <appender-ref ref="sout"></appender-ref>
-        </logger>
+        <logger name="org.springframework" level="info"></logger>
+        <Logger name="org.eclipse.jetty" level="info"/>
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ROLLING"></AppenderRef>
+        </Root>
     </loggers>
 </configuration>
