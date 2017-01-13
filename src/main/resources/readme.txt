@@ -1,0 +1,1 @@
+springboot 配置文件采用properties的方式比yml 方便复制。
