@@ -8,12 +8,10 @@ import java.io.Serializable;
 public abstract interface Result extends Serializable {
 
 
-
 	@Message(message = "失败")
 	public static final int FAILURE = 0;
 	@Message(message = "成功")
 	public static final int SUCCESS = 1;
-
 
 	@Message(message = "未知错误")
 	public static final int ERROR_UNKNOWN = 10;

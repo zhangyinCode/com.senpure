@@ -3,6 +3,8 @@ package com.senpure.base.spring;
 import com.senpure.base.result.ResultMap;
 import com.senpure.base.util.Download;
 import com.senpure.base.util.Http;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,11 +14,12 @@ import java.io.File;
 import java.util.Locale;
 import java.util.Map;
 
+@Component
 public class MultipleInterceptor extends InterceptorSupport {
 
 
     // private PropertyFilter filter= new HibernateFastJsonFilter();
-
+@Autowired
     private LocaleResolver localeResolver;
 
     public LocaleResolver getLocaleResolver() {
@@ -57,7 +60,7 @@ public class MultipleInterceptor extends InterceptorSupport {
                         return;
                     }
 
-                    // 处理jsp视图，将result转换成一级字段
+                    // 处理页面视图，将result转换成一级字段
                     model.remove("action.result");
                     modelAndView.addAllObjects(result);
 

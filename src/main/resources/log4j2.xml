@@ -22,9 +22,11 @@
         </RollingFile>
     </appenders>
     <loggers>
+        <!--  -->
         <logger name="org.springframework" level="info"></logger>
+
         <Logger name="org.eclipse.jetty" level="info"/>
-        <Root level="trace">
+        <Root level="debug">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="ROLLING"></AppenderRef>
         </Root>

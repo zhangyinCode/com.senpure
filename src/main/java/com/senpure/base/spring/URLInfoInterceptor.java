@@ -2,6 +2,7 @@ package com.senpure.base.spring;
 
 
 import com.senpure.base.util.ThreadLocalContext;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @author 罗中正
  * @version 1.0
  */
+@Component(value = "urlInfoInterceptor ")
 public class URLInfoInterceptor extends InterceptorSupport {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)

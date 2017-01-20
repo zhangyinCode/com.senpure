@@ -20,7 +20,14 @@ public class HelloWorldController extends BaseController  implements Initializin
 
         return "/helloWorld";
     }
+    @RequestMapping("/hello")
+    public String hello() {
 
+        log.debug("home  helloworld  hello");
+
+
+        return "/helloWorld";
+    }
     @Override
     public void afterPropertiesSet() throws Exception {
 

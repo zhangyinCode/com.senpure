@@ -7,6 +7,12 @@
     <meta charset="UTF-8">
 </head>
 <body>
-hello world 44
+hello world
+ <a href="/authorize/login">hello   </a><br>
+
+kong <@spring.message "username.length.error2"/><br>
+you <@spring.message "username.length.error"/><br>
+
+<@spring.message "label.time"/><br>
 </body>
 </html>

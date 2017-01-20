@@ -36,7 +36,7 @@ public class ResultMap extends HashMap<String, Object> {
     }
 
     public ResultMap(int code) {
-        put(RESULT_KEY, code);
+        super.put(RESULT_KEY, code);
     }
 
     public ResultMap put(String key, Object value) {
