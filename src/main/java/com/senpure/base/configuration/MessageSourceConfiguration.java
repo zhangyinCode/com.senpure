@@ -1,6 +1,5 @@
 package com.senpure.base.configuration;
 
-import com.senpure.base.spring.BaseController;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
@@ -8,20 +7,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.nio.charset.Charset;
 
 /**
  * Created by Administrator on 2017/1/20.
  */
+//MessageSourceAutoConfiguration
+
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(
         prefix = "spring.messages"
 )
-public class MessageSourceConfiguration  extends BaseController {
+public class MessageSourceConfiguration  extends BaseConfiguration {
     private  boolean  useCodeAsDefaultMessage=true;
     private String basename = "messages";
     private Charset encoding = Charset.forName("UTF-8");
@@ -29,11 +28,13 @@ public class MessageSourceConfiguration  extends BaseController {
     private boolean fallbackToSystemLocale = true;
     private boolean alwaysUseMessageFormat = false;
 
-    private  MessageSource messageSource;
+  //  private  MessageSource messageSource;
     @Bean
     public MessageSource messageSource()
     {
-       ResourceBundleMessageSource messageSource=new ResourceBundleMessageSource();
+       // ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
+
+        ResourceBundleMessageSource messageSource=new ResourceBundleMessageSource();
         if(StringUtils.hasText(this.basename)) {
 
            // log.info("basename is "+basename);
@@ -54,19 +55,11 @@ public class MessageSourceConfiguration  extends BaseController {
         messageSource.setUseCodeAsDefaultMessage(this.useCodeAsDefaultMessage);
 
 
-        this.messageSource=messageSource;
+       // this.messageSource=messageSource;
         return messageSource;
     }
-    @Bean
-    public Validator validator()
-    {
-        LocalValidatorFactoryBean validator= new    org.springframework.validation.beanvalidation.LocalValidatorFactoryBean();
 
-        validator.setProviderClass(org.hibernate.validator.HibernateValidator.class);
-        validator.setValidationMessageSource(messageSource);
-        validator.afterPropertiesSet();
-        return validator;
-    }
+
 
     public boolean isUseCodeAsDefaultMessage() {
         return useCodeAsDefaultMessage;

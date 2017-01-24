@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HelloWorldController extends BaseController  implements InitializingBean{
 
-    @RequestMapping("/")
+   // @RequestMapping("/")
     public String home() {
 
         log.debug("home  helloworld =====================================");

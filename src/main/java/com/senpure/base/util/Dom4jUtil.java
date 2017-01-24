@@ -122,10 +122,22 @@ public class Dom4jUtil {
 			sb.append("<").append(entry.getKey()).append(">");
 
 			Object o = entry.getValue();
+			//System.out.println(o.getClass());
 			if (o instanceof Map) {
 
 				mapToXmlString((Map<String, Object>) o, sb);
-			} else {
+
+			}
+			else if(o instanceof List)
+			{
+				List os= (List) o;
+				for(Object _o:os)
+				{
+					//System.out.println(_o);
+					mapToXmlString((Map<String, Object>) _o, sb);
+				}
+			}
+			else {
 				sb.append("<![CDATA[");
 				sb.append(entry.getValue().toString());
 				sb.append("]]>");

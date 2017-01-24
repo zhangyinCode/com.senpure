@@ -1,9 +1,5 @@
 package com.senpure.base.util;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 /**
  * Created by DZ on 2016-09-01 14:02
  */
@@ -59,6 +55,10 @@ public class HashArraySenstiveWords {
         for (char i = 32; i < 256; i++) {
             addDisturbChar(i);
         }
+        addDisturbChar('》');
+        addDisturbChar('《');
+        addDisturbChar('？');
+       // System.out.println(disturbs);
     }
 
     /**
@@ -183,4 +183,18 @@ public class HashArraySenstiveWords {
         return result;
     }
 
+    public static void main(String[] args) {
+
+        String senstive[]={"毛泽东","草拟吗","操你妈","共产党"};
+        System.out.print("屏蔽词：");
+        for (String s:senstive)
+        {
+            System.out.print(s+" ");
+            addSenstiveWords(s);
+        }
+        System.out.println("");
+        String str="毛 泽 东天天向上，共?？产-《》党外岁，操你妈的产品";
+        System.out.println("原字符："+str);
+        System.out.println("和谐后："+filter(str));
+    }
 }

@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
     private String account ;
     @Length(min=6,max=12,message="{password.length.error}")
     private String password ;
+    private boolean remember=true;
 
     public String getAccount() {
         return account;
@@ -26,5 +27,13 @@ import org.hibernate.validator.constraints.Length;
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isRemember() {
+        return remember;
+    }
+
+    public void setRemember(boolean remember) {
+        this.remember = remember;
     }
 }

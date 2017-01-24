@@ -38,6 +38,7 @@ public class MultipleInterceptor extends InterceptorSupport {
         // jsp
         // modelAndView.addAllObjects(JSON.toJSONString(MenuUtil.getMenuContext(request)));
 
+        log.debug(modelAndView);
         if (modelAndView != null) {
             Map<String, Object> model = modelAndView.getModel();
             ResultMap result = (ResultMap) model.get("action.result");

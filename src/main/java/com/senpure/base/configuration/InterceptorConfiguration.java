@@ -28,7 +28,8 @@ public class InterceptorConfiguration  extends WebMvcConfigurerAdapter{
         // excludePathPatterns 用户排除拦截
 
           registry.addInterceptor(urlInfoInterceptor);
-          registry.addInterceptor(multipleInterceptor);
+          registry.addInterceptor(multipleInterceptor).excludePathPatterns("/resources/**");
+
         super.addInterceptors(registry);
 
     }

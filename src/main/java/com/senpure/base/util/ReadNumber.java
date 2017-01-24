@@ -53,7 +53,7 @@ public final class ReadNumber {
 	}
 
 	public static String read(int number) {
-		return read(number, true);
+		return read(number, false);
 	}
 
 	/**
@@ -331,4 +331,15 @@ public final class ReadNumber {
 		int number;
 	}
 
+	public static void main(String[] args) {
+		double [] nus={123,123.14,27,88,11.111,1111,123574415,984521};
+
+		for (double n:nus)
+		{
+			System.out.println(n+" 读作："+read(n));
+		}
+		System.out.println(11+" 读作："+read(111,true));
+		System.out.println(11+" 读作："+read(11,false));
+
+	}
 }

@@ -16,16 +16,19 @@ import javax.validation.Valid;
  * Created by Administrator on 2017/1/20.
  */
 @Controller
-@RequestMapping("/authorize")
+@RequestMapping("/")
 public class LoginController extends BaseController {
     //String view="helloWorld";
-    String view="authorize/login2";
-    @RequestMapping(value = { "/login" })
+    String view="authorize/login";
+    @RequestMapping(value = { "authorize/login","" })
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute("criteria") AccountCriteria criteria, BindingResult result) {
 
        log.debug("login method");
         if (result.hasErrors()) {
             log.warn("验证不通过");
+          //  Exception exception=new Exception();
+           // log.error("",exception);
+
             return addFormatIncorrectResult(request, result, new ModelAndView(view));
         }
         log.debug("login  return");
