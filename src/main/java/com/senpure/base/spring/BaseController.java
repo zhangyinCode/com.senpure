@@ -37,11 +37,29 @@ public class BaseController {
     public void setLocaleResolver(LocaleResolver localeResolver) {
         this.localeResolver = localeResolver;
     }
+    protected  ModelAndView  addActionResult(HttpServletRequest request, ModelAndView modelAndView, ResultMap result)
+    {
+
+        return  addActionResult(request,modelAndView,result,true);
+    }
+
+
+    protected ModelAndView addActionResult(HttpServletRequest request, ModelAndView modelAndView, ResultMap result,
+                                           boolean i18n) {
+
+        if (i18n && !result.isSuccess()) {
+            log.debug("localeRsolver"+localeResolver);
+            ResultHelper.wrapMessage(result,localeResolver.resolveLocale(request));
+        }
+
+        return modelAndView.addObject(AppConstant.ACTION_RESULT_MODEL_VIEW_KEY,result);
+    }
     protected ModelAndView addFormatIncorrectResult(HttpServletRequest request, BindingResult result,
                                                     ModelAndView modelAndView) {
        // LocaleContextHolder.getLocale();
         return modelAndView.addObject(AppConstant.ACTION_RESULT_MODEL_VIEW_KEY, formatIncorrectResult(request, result));
     }
+
     private ResultMap formatIncorrectResult(HttpServletRequest request, BindingResult result) {
         List<ObjectError> es = result.getAllErrors();
         List<Map<String,String>> validators=new ArrayList<>();

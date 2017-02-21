@@ -1,12 +1,7 @@
 package com.senpure.base.annotation;
 
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 @Target({ ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -24,13 +19,19 @@ public @interface PermissionVerify {
      * @return
      */
     boolean login() default  true;
-    int [] perssionId();
+    String [] permissions() default {};
+
     /**
      * 为true是表示全部验证通过
      * @return
      */
     boolean allVerify() default false;
 
+    /**
+     * 资源所有认证，该字段用于自动生成
+     * @return
+     */
+    String resourceVerifyName() default  "";
 
 
 }

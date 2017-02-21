@@ -2,6 +2,7 @@ package com.senpure.base.configuration;
 
 import com.senpure.base.spring.MultipleInterceptor;
 import com.senpure.base.spring.URLInfoInterceptor;
+import com.senpure.base.spring.VerifyInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,6 +18,8 @@ public class InterceptorConfiguration  extends WebMvcConfigurerAdapter{
     private URLInfoInterceptor urlInfoInterceptor;
     @Autowired
     private MultipleInterceptor multipleInterceptor;
+    @Autowired
+    private VerifyInterceptor verifyInterceptor;
     public InterceptorConfiguration() {
         super();
     }
@@ -30,6 +33,7 @@ public class InterceptorConfiguration  extends WebMvcConfigurerAdapter{
           registry.addInterceptor(urlInfoInterceptor);
           registry.addInterceptor(multipleInterceptor).excludePathPatterns("/resources/**");
 
+          registry.addInterceptor(verifyInterceptor);
         super.addInterceptors(registry);
 
     }
