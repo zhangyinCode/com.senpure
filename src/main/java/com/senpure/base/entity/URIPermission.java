@@ -16,7 +16,7 @@ public class URIPermission extends IntEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "permissionName")
+    @JoinColumn(name = "permissionName" ,referencedColumnName = "name")
     private Permission permission;
 
     public String getUriAndMethod() {
@@ -34,4 +34,5 @@ public class URIPermission extends IntEntity {
     public void setPermission(Permission permission) {
         this.permission = permission;
     }
+
 }

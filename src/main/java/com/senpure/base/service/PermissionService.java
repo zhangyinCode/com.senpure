@@ -24,24 +24,34 @@ public class PermissionService extends BaseService {
         permissions = dao.findAll();
     }
 
-    public Permission loadPermission(String permissionName)
-    {
+    public Permission loadPermission(String permissionName) {
 
-       return   dao.findPermissionByName(permissionName);
+        return dao.findPermissionByName(permissionName);
 
     }
+
     public void syncPermissions(List<Permission> permissions) {
 
 
         List<Permission> newPermissions = new ArrayList<>();
+
         for (Permission p : permissions) {
 
+            boolean notNew = false;
             for (Permission p2 : this.permissions) {
+
                 if (p.getName().equals(p2.getName())) {
-                    continue;
+                    log.info("{}在数据库中存在，以数据库中的数据为准不做修改",p.getName());
+                    notNew = true;
+                    break;
                 }
+
             }
-            newPermissions.add(p);
+            if (!notNew) {
+                log.info("新增权限相关的检查{}",p);
+                newPermissions.add(p);
+            }
+
         }
 
         if (!newPermissions.isEmpty()) {

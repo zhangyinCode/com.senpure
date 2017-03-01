@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
     private String password ;
     private String loginIP;
     private boolean remember=true;
+    private String loginType;
 
     public String getAccount() {
         return account;
@@ -44,5 +45,13 @@ import org.hibernate.validator.constraints.Length;
 
     public void setLoginIP(String loginIP) {
         this.loginIP = loginIP;
+    }
+
+    public String getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
     }
 }

@@ -20,13 +20,13 @@ public abstract interface Result extends Serializable {
 	@Message(message ="服务器繁忙，请稍后再试")
 	public static final int ERROR_DIM= 12;
 
-	@Message
+	@Message(message = "账号已经存在")
 	public static final int ACCOUNT_ALREADY_EXISTS = 100;
-	@Message
+	@Message(message = "账号不存在")
 	public static final int ACCOUNT_NOT_EXIST = 101;
-	@Message
+	@Message(message = "账号被禁用")
 	public static final int ACCOUNT_BANED = 102;
-	@Message
+	@Message(message = "密码不正确")
 	public static final int PASSWORD_INCORRECT = 103;
 	@Message
 	public static final int FORMAT_INCORRECT = 104;

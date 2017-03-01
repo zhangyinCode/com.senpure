@@ -11,6 +11,7 @@ public class AppConstant implements Serializable {
 
     private static final long serialVersionUID = 1111442270801558256L;
 
+    public static final String PROJECT_NAME="SENPURE";
     /**
      * 数据库表前缀
      */

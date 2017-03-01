@@ -1,4 +1,4 @@
-package com.senpure.base.spring;
+package com.senpure.base.init;
 
 import com.senpure.AppConstant;
 import com.senpure.base.annotation.PermissionVerify;
@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.*;
 
 @Repository
+@Order(value = 1)
 public class PermissionsGenerator implements
         ApplicationListener<ContextRefreshedEvent> {
     private static Logger LOG = LogManager.getLogger(PermissionsGenerator.class);
@@ -29,6 +31,7 @@ public class PermissionsGenerator implements
     private Map<String,List<Permission>> uriPermissionS=new HashMap<>();
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        LOG.debug("准备检查代码中的权限，生成数据");
         RequestMappingHandlerMapping rm = event.getApplicationContext().getBean(RequestMappingHandlerMapping.class);
 
         Map<RequestMappingInfo, HandlerMethod> map = rm.getHandlerMethods();
@@ -37,7 +40,7 @@ public class PermissionsGenerator implements
         while (iterator.hasNext()) {
             Map.Entry<RequestMappingInfo, HandlerMethod> entry = iterator.next();
             RequestMappingInfo info = entry.getKey();
-            LOG.debug(info);
+          //  LOG.debug(info);
 
             HandlerMethod handlerMethod = entry.getValue();
             PermissionVerify permissionVerify = handlerMethod.getMethod().getAnnotation(PermissionVerify.class);
@@ -61,7 +64,7 @@ public class PermissionsGenerator implements
                 List<String> uriAndMethod=new ArrayList<>();
                 while (true) {
                     String uri=it.next();
-                    uriAndMethod.add(uri+"_"+handlerMethod.getMethod().getName());
+                    uriAndMethod.add(uri+"->"+handlerMethod.getMethod().getName());
                     sname.append(uri);
                     if (it.hasNext()) {
                         sname.append("||");
@@ -70,7 +73,7 @@ public class PermissionsGenerator implements
                     }
                 }
                 sname.append("_").append(suffix);
-                LOG.debug(sname);
+               // LOG.debug(sname);
                 Permission permission = new Permission();
                 permission.setName(sname.toString());
                 permission.setType(AppConstant.PERMISSION_TYPE_NORMAL);

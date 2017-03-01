@@ -4,6 +4,7 @@ package com.senpure.base.entity;
 import com.senpure.AppConstant;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class Permission extends IntEntity {
     private String name;
 
 
-    @OneToMany(mappedBy = "permission",cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "permission",cascade = {CascadeType.PERSIST})
     private List<URIPermission> uris;
 
     /**
@@ -78,5 +79,31 @@ public class Permission extends IntEntity {
 
     public void setUris(List<URIPermission> uris) {
         this.uris = uris;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        if(uris!=null)
+        {
+            uris.stream().forEach(uriPermission -> sb.append(uriPermission.getUriAndMethod()).append(" "));
+        }
+
+        return "Permission{" +
+                "name='" + name + '\'' +
+                ", uris=" +sb.toString() +
+                ", type='" + type + '\'' +
+                ", resourceVerifyName='" + resourceVerifyName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        List<String> strs=new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            strs.add(i+"");
+        }
+        strs.stream().forEach( str -> System.out.println(str));
     }
 }

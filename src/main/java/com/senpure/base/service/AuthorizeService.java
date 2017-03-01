@@ -38,7 +38,8 @@ private AccountDao accountDao;
         {
             return  ResultMap.getResult(Result.PASSWORD_INCORRECT);
         }
-     long now =System.currentTimeMillis();
+
+        long now =System.currentTimeMillis();
         account.setLoginTime(now);
         accountDao.save(account);
         LoginedAccount loginedAccount=new LoginedAccount();

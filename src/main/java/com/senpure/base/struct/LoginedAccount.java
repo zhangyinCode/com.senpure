@@ -3,6 +3,7 @@ package com.senpure.base.struct;
 import com.senpure.base.vo.PermissionVo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class LoginedAccount implements Serializable {
     private	long createTime;
     private String loginIP;
 
-    private List<PermissionVo> permissions;
+    private List<PermissionVo> permissions=new ArrayList<>();
 
     public Integer getId() {
         return id;
